@@ -1,0 +1,79 @@
+📜 Project Report Structure
+
+1. Title Page
+
+Project Name: react-fusion
+
+2. Introduction
+
+This project is a React-based web application with a counter, user data form, and rich text editor. It implements Material UI, React Spring animations, TypeScript, and React Router for navigation. The purpose is to showcase state management, component interactions, and UI design principles.
+
+3. Technologies Used
+List the major technologies/frameworks:
+
+Frontend: React.js, TypeScript
+UI Components: Material UI / Jodit
+State Management: React Hooks, Redux Toolkit
+Routing: React Router
+Data Storage: Local Storage & Redux Store
+Authentication: Google Sign-in with firbase
+
+
+4. Component Structure & State Management
+
+Counter Component: Handles increment, decrement, reset with a dynamic background color effect.
+User Form: Stores user data with an auto-generated ID, local storage saving, and unsaved changes alert.
+Rich Text Editor: Displays user data with formatting options.
+
+User Form: Uses useState for form fields and localStorage/Redux for persistence.
+
+Rich Text Editor: Uses useState to manage user input and sync with local storage.
+
+
+5. Features Implemented
+
+
+1.Counter Component
+
+Increment, decrement, and reset buttons.
+Background color changes with count (Bezier curve effect).
+Reset button restores background to default.
+
+
+2.User Data Form
+
+Fields: Name, Address, Email, Phone.
+Auto-generated user ID.
+Saves data to local storage.
+Warning popup if there are unsaved changes when closing the browser.
+
+
+3.Rich Text Editor
+
+Displays user-entered data.
+Supports bold, italic, underline, and lists.
+Data persistence after refresh.
+(Optional) User Authentication
+
+4.Google Sign-In.
+
+Private and public route protection.
+
+
+
+6. Challenges & Learnings
+
+1.Background Color Mixing Issue
+
+Implementing the color transition based on count changes was tricky, especially achieving a smooth gradient effect (Bezier curve).
+Solution: Used React Spring for smoother transitions and adjusted the color interpolation logic.
+
+2."Go Back" Issue in Navigation
+
+Faced problems with handling React Router’s navigation state when the user tried to go back while filling the form.
+Solution: Implemented browser history checks and a confirmation popup using the beforeunload event to prevent accidental data loss.
+
+3.Google Authentication Challenges
+
+Encountered difficulties in setting up Google Sign-In and managing authentication state.
+Solution: Understood how OAuth works and used Firebase authentication for a smoother login/logout process.
