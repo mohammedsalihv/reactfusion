@@ -1,33 +1,83 @@
-
-
 .counter {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  text-align: center;
+  border: 2px solid white;
+  color: white;
+
+}
+
+.counterH1{
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.countH3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  height: 10vh;
+  width: 200px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid white;
+  color: black;
+  position: relative;
+  overflow: hidden;
+  background: white; /* Default white */
+  transition: background 0.5s ease-in-out;
+  border-radius: 10px;
+}
+
+
+.buttonCounterContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+
+.buttonCount {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #0c0b0b;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  color: #f0f0f0;
+}
+
+.button:hover {
+  background-color: #282626;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+  .card {
+    width: 250px;
+  }
+
+  .buttonCounterContainer {
     flex-direction: column;
-    transition: background 0.3s ease;
-    text-align: center;
   }
-  
-  button {
-    margin: 5px;
-    padding: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    border: none;
-    background-color: #0c0b0b;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    color: #f0f0f0;
+
+  .buttonCount {
+    width: 100%;
   }
-  
-  button:hover {
-    background-color: #282626;
-  }
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-  }
-  
+}
