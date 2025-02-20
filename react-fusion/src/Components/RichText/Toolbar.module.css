@@ -1,13 +1,12 @@
 .jodit-container {
-    max-width: 900px !important; 
-    margin: auto;
-    width: 100%;
+  max-width: 900px !important;
+  margin: auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .jodit-container {
+    width: 95% !important;
+    min-height: 250px !important;
   }
-  
-  @media screen and (max-width: 768px) {
-    .jodit-container {
-      width: 95% !important; 
-      min-height: 250px !important;
-    }
-  }
-  
+}

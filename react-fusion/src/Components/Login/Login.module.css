@@ -127,13 +127,14 @@
     cursor: pointer;
     transition: background 0.3s;
     margin-top: 2%;
-  }
-  
-  .googleButton img {
-    height: 30px;  /* Adjust the size */
+}
+
+.googleButton img {
+    height: 30px;
     width: 30px;
     margin-right: 10px;
-  }
+}
+
 @media (max-width: 600px) {
     .container {
         padding: 20px;

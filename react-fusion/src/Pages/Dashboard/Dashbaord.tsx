@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 
 const Dashboard = () => {
-  const [user, setUser] = useState<{ name?: string; email?: string } | null>(null);
+  const [user, setUser] = useState<{ name?: string; email?: string } | null>(
+    null
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +35,9 @@ const Dashboard = () => {
               </button>
             </div>
           ) : (
-            <Link to="/" className={styles.navbarLogin}>Login</Link>
+            <Link to="/" className={styles.navbarLogin}>
+              Login
+            </Link>
           )}
         </div>
       </nav>
@@ -43,12 +47,17 @@ const Dashboard = () => {
           { title: "Counter", path: "/counter" },
           { title: "Rich Text Editor", path: "/texteditor" },
           { title: "User Form", path: "/UserForm" },
-          { title: "More", path: "#" }
+          { title: "More", path: "#" },
         ].map((item, index) => (
           <div key={index} className={styles.contentBox}>
             <h1>{item.title}</h1>
             <Link to={item.path}>
-              <img style={{height:"60px", width:"60px"}} className={styles.arrowIcon} src="/arrow.png" alt="Go" />
+              <img
+                style={{ height: "60px", width: "60px" }}
+                className={styles.arrowIcon}
+                src="/arrow.png"
+                alt="Go"
+              />
             </Link>
           </div>
         ))}
@@ -58,4 +67,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

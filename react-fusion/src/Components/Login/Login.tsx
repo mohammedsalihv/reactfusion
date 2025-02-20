@@ -1,14 +1,14 @@
-import styles from './Login.module.css';
+import styles from "./Login.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faEnvelope, faLock} from "@fortawesome/free-solid-svg-icons";
-import { useState } from 'react';
-import { auth, provider, signInWithPopup} from "../../Auth/firebase";
+import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import { auth, provider, signInWithPopup } from "../../Auth/firebase";
 
 const Login: React.FC = () => {
-  const [action, setAction] = useState('Login');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [action, setAction] = useState("Login");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,28 +29,32 @@ const Login: React.FC = () => {
 
   const handleLogin = () => {
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const validUser = users.find((user: any) => user.email === email && user.password === password);
-  
+    const validUser = users.find(
+      (user: any) => user.email === email && user.password === password
+    );
+
     if (validUser) {
       alert("Login successful!");
-      
+
       localStorage.setItem(
         "loggedInUser",
         JSON.stringify({ email: validUser.email, name: validUser.username })
       );
-  
+
       window.location.href = "/dashboard";
     } else {
       alert("Invalid email or password!");
     }
   };
-  
 
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      localStorage.setItem("loggedInUser", JSON.stringify({ email: user.email, name: user.displayName }));
+      localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify({ email: user.email, name: user.displayName })
+      );
       alert(`Welcome, ${user.displayName}!`);
       window.location.href = "/dashboard";
     } catch (error) {
@@ -68,40 +72,84 @@ const Login: React.FC = () => {
 
       <form onSubmit={handleSubmit}>
         <div className={styles.inputs}>
-          {action === 'Sign Up' && (
+          {action === "Sign Up" && (
             <div className={styles.input}>
-              <FontAwesomeIcon icon={faUser} size="lg" className={styles.icons} />
-              <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+              <FontAwesomeIcon
+                icon={faUser}
+                size="lg"
+                className={styles.icons}
+              />
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
             </div>
           )}
           <div className={styles.input}>
-            <FontAwesomeIcon icon={faEnvelope} size="lg" className={styles.icons} />
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              size="lg"
+              className={styles.icons}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className={styles.input}>
             <FontAwesomeIcon icon={faLock} className={styles.icons} />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
-          <button type="submit" className={styles.submitButton}>{action}</button>
+          <button type="submit" className={styles.submitButton}>
+            {action}
+          </button>
         </div>
       </form>
 
       <button onClick={handleGoogleSignIn} className={styles.googleButton}>
-      <img  src="/Google.png" alt="Google Logo" />
+        <img src="/Google.png" alt="Google Logo" />
         Sign in with Google
       </button>
 
       <div className={styles.submitContainer}>
-        {action === 'Login' && (
+        {action === "Login" && (
           <div className={styles.forgot}>
             Forgot password? <span className={styles.spanMsg}>Click here!</span>
           </div>
         )}
         <div className={styles.toggle}>
-          {action === 'Login' ? (
-            <p>Don't have an account? <span className={styles.spanMsg} onClick={() => setAction('Sign Up')}>Sign Up</span></p>
+          {action === "Login" ? (
+            <p>
+              Don't have an account?{" "}
+              <span
+                className={styles.spanMsg}
+                onClick={() => setAction("Sign Up")}
+              >
+                Sign Up
+              </span>
+            </p>
           ) : (
-            <p>Already have an account? <span className={styles.spanMsg} onClick={() => setAction('Login')}>Login</span></p>
+            <p>
+              Already have an account?{" "}
+              <span
+                className={styles.spanMsg}
+                onClick={() => setAction("Login")}
+              >
+                Login
+              </span>
+            </p>
           )}
         </div>
       </div>
@@ -110,4 +158,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

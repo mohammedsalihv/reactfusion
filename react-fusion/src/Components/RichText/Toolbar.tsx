@@ -3,8 +3,8 @@ import JoditEditor from "jodit-react";
 import "./Toolbar.module.css";
 
 const config = {
-  buttons: ["bold", "italic", "underline", "ul", "ol"], 
-  toolbarAdaptive: false,  
+  buttons: ["bold", "italic", "underline", "ul", "ol"],
+  toolbarAdaptive: false,
   width: "100%",
   minHeight: "300px",
   maxHeight: "500px",
@@ -15,9 +15,8 @@ const config = {
   removeButtons: ["about"],
 };
 
-
 type ToolbarProps = {
-  initialValue: string; 
+  initialValue: string;
   getValue: (value: string) => void;
 };
 
@@ -38,4 +37,3 @@ const Toolbar: React.FC<ToolbarProps> = ({ initialValue, getValue }) => {
 };
 
 export default Toolbar;
-
