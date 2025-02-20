@@ -10,18 +10,6 @@ const UserForm = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
 
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (user.hasUnsavedChanges) {
-        event.preventDefault();
-        event.returnValue = "You have unsaved changes!";
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [user.hasUnsavedChanges]);
-
   const [formData, setFormData] = useState({
     name: user.name || "",
     address: user.address || "",
@@ -29,58 +17,61 @@ const UserForm = () => {
     phone: user.phone || "",
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    address: "",
-    email: "",
-    phone: "",
-  });
+  const [isFormDirty, setIsFormDirty] = useState(false);
 
-  const validateForm = () => {
-    let newErrors = { name: "", address: "", email: "", phone: "" };
-    let isValid = true;
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (isFormDirty) {
+        event.preventDefault();
+        event.returnValue =
+          "You have unsaved changes. Are you sure you want to leave?";
+      }
+    };
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-      isValid = false;
-    }
+    const handlePopState = (event: PopStateEvent) => {
+      if (
+        isFormDirty &&
+        !window.confirm(
+          "You have unsaved changes. Are you sure you want to leave?"
+        )
+      ) {
+        window.history.pushState(null, "", window.location.href);
+        event.preventDefault();
+      }
+    };
 
-    if (!formData.address.trim()) {
-      newErrors.address = "Address is required";
-      isValid = false;
-    }
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    window.addEventListener("popstate", handlePopState);
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Enter a valid email address";
-      isValid = false;
-    }
+    window.history.pushState(null, "", window.location.href);
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required";
-      isValid = false;
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Enter a valid 10-digit phone number";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isFormDirty]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     dispatch(setUser({ [e.target.name]: e.target.value }));
+    setIsFormDirty(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      dispatch(saveUser());
-      navigate("/");
+    dispatch(saveUser());
+    setIsFormDirty(false);
+    navigate("/");
+  };
+
+  const handleNavigation = (path: string) => {
+    if (isFormDirty) {
+      const confirmLeave = window.confirm(
+        "You have unsaved changes. Are you sure?"
+      );
+      if (!confirmLeave) return;
     }
+    navigate(path);
   };
 
   return (
@@ -91,7 +82,15 @@ const UserForm = () => {
       minHeight="100vh"
     >
       <Paper elevation={3} sx={{ padding: 4, width: 400, borderRadius: 5 }}>
-        <Typography variant="h6" sx={{ fontWeight: "bold", mt: 2 , textAlign:'center' , marginBottom:'2px' }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+            mt: 2,
+            textAlign: "center",
+            marginBottom: "2px",
+          }}
+        >
           User Information
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -103,9 +102,6 @@ const UserForm = () => {
             margin="normal"
             value={formData.name}
             onChange={handleChange}
-            error={!!errors.name}
-            helperText={errors.name}
-            InputProps={{ sx: { fontSize: "12px", height: "50px" , borderRadius : "10px"  } }}
           />
           <TextField
             fullWidth
@@ -115,9 +111,6 @@ const UserForm = () => {
             margin="normal"
             value={formData.address}
             onChange={handleChange}
-            error={!!errors.address}
-            helperText={errors.address}
-            InputProps={{ sx: { fontSize: "12px", height: "50px" , borderRadius : "10px"  } }}
           />
           <TextField
             fullWidth
@@ -128,9 +121,6 @@ const UserForm = () => {
             margin="normal"
             value={formData.email}
             onChange={handleChange}
-            error={!!errors.email}
-            helperText={errors.email}
-            InputProps={{ sx: { fontSize: "12px", height: "50px" , borderRadius : "10px"  } }}
           />
           <TextField
             fullWidth
@@ -141,20 +131,20 @@ const UserForm = () => {
             margin="normal"
             value={formData.phone}
             onChange={handleChange}
-            error={!!errors.phone}
-            helperText={errors.phone}
-            InputProps={{ sx: { fontSize: "12px", height: "50px" , borderRadius : "10px"  } }}
           />
           <Button
             fullWidth
             variant="contained"
             color="primary"
             type="submit"
-            sx={{ mt: 2 , borderRadius : "10px" }}
+            sx={{ mt: 2, borderRadius: "10px" }}
           >
             Save
           </Button>
         </form>
+        <Button onClick={() => handleNavigation("/dashboard")} sx={{ mt: 2 }}>
+          Go to Dashboard
+        </Button>
       </Paper>
     </Box>
   );
